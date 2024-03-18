@@ -56,10 +56,12 @@ export class HomeComponent implements OnInit {
         return result.data.characters.results;
       })
     ).subscribe((newCharacters: Characters[]) => { 
-      this.originalCharacters = [...newCharacters]; // Almacena una copia de los personajes originales
-      this.characters = [...this.originalCharacters]; // Inicializa characters con originalCharacters
+      // Agrega los nuevos personajes a la lista existente 
+      this.originalCharacters = [...this.originalCharacters, ...newCharacters];
+      this.characters = [...this.originalCharacters]; // Actualiza la lista de personajes que se muestra
     });
   }
+  
   
   filterCharacters(searchTerm: string): void {
     // Convierte el término de búsqueda a minúsculas para una comparación de caso insensible
@@ -79,7 +81,7 @@ export class HomeComponent implements OnInit {
   onScroll(): void {
     const element = this.characterContainer.nativeElement;
     const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
-    if (atBottom) {
+    if (atBottom ) {
       this.currentPage++;
       this.loadCharacters();
     }
