@@ -1,0 +1,60 @@
+<section class="text-gray-400 bg-gray-900 body-font" infiniteScroll (scrolled)="onScroll()" #characterContainer>
+    <div class="container px-5 py-24 mx-auto">
+     <h2 class="mb-4 text-center text-white">Search characters</h2>  
+      <div class="mb-8 text-center">
+        <input type="text" placeholder="Search characters" class="px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" [(ngModel)]="searchTerm" (input)="filterCharacters(searchTerm)">
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div *ngIf="loading" class="text-center text-blue">
+          <i class="fa fa-spinner fa-spin fa-4x"></i>
+        </div>
+        <div *ngFor="let character of characters" class="p-4">
+          <div class="h-full flex flex-col items-center text-center  hover:bg-[#16D0C2] hover:text-white transition duration-300 ease-in-out rounded-lg">
+            <img alt="character" class="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4 cursor-pointer" [src]="character.image" (click)="showCharacterDetails(character.id)">
+            <div class="w-full">
+              <h2 class="title-font font-medium text-lg">{{ character.name }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <div *ngIf="selectedCharacter" class="fixed inset-0 z-10 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black opacity-50" (click)="closeModal()"></div>
+    <div class="bg-white p-6 rounded-lg z-20 w-1/2">
+      <h2 class="text-2xl font-bold mb-4">{{ selectedCharacter.name }}</h2>
+      <img [src]="selectedCharacter.image" alt="{{ selectedCharacter.name }}" class="rounded-lg mb-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p><span class="font-semibold">Status:</span> {{ selectedCharacter.status }}</p>
+          <p><span class="font-semibold">Species:</span> {{ selectedCharacter.species }}</p>
+          <p><span class="font-semibold">Gender:</span> {{ selectedCharacter.gender }}</p>
+        </div>
+        <div>
+          <p><span class="font-semibold">Origin:</span> {{ selectedCharacter.origin.name }}</p>
+          <p><span class="font-semibold">Location:</span> {{ selectedCharacter.location.name }}</p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <h3 class="text-lg font-bold mb-2"><i class="fas fa-video mr-2"></i> Episodes:</h3>
+        <div class="max-h-40 overflow-y-auto">
+          <ul>
+            <li *ngFor="let episode of selectedCharacter.episode" class="mb-2">
+              <span class="mr-2"><i class="fas fa-film"></i></span> {{ episode.name }} ({{ episode.episode }}) - Air Date: {{ episode.air_date }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-6 space-x-4">
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" (click)="closeModal()">Close</button>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        [routerLink]="['/editcharacters', selectedCharacter.id]">Edit Character</button>
+      </div>      
+    </div>
+  </div>
+  
+  
+  
+  
