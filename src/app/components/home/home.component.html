@@ -5,9 +5,6 @@
         <input type="text" placeholder="Search characters" class="px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" [(ngModel)]="searchTerm" (input)="filterCharacters(searchTerm)">
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div *ngIf="loading" class="text-center text-blue">
-          <i class="fa fa-spinner fa-spin fa-4x"></i>
-        </div>
         <div *ngFor="let character of characters" class="p-4">
           <div class="h-full flex flex-col items-center text-center  hover:bg-[#16D0C2] hover:text-white transition duration-300 ease-in-out rounded-lg">
             <img alt="character" class="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4 cursor-pointer" [src]="character.image" (click)="showCharacterDetails(character.id)">

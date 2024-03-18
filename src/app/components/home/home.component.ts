@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
   selectedCharacter: any;
   currentPage = 1; 
   pageSize = 20;
-  loading = false;
   showScrollToTopButton = false;
   searchTerm: string = '';
   searchHistory: string[] = [];
@@ -41,7 +40,6 @@ export class HomeComponent implements OnInit {
 
   
   loadCharacters(): void {
-    this.loading = true;
     const query = gql`  
       query {
         characters(page: ${this.currentPage}) {
@@ -55,7 +53,6 @@ export class HomeComponent implements OnInit {
     `;
     this.apollo.watchQuery<any>({ query }).valueChanges.pipe(
       map(result => {
-        this.loading = false;
         return result.data.characters.results;
       })
     ).subscribe((newCharacters: Characters[]) => { 
@@ -82,7 +79,7 @@ export class HomeComponent implements OnInit {
   onScroll(): void {
     const element = this.characterContainer.nativeElement;
     const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
-    if (atBottom && !this.loading) {
+    if (atBottom) {
       this.currentPage++;
       this.loadCharacters();
     }

@@ -23,7 +23,13 @@ interface Echaracters{
 export class EditcharactersComponent implements OnInit {
   characterId!: number;
   characters: Echaracters[] = [];
-  selectedCharacter: any;
+  selectedCharacter: Echaracters = {
+    name: '',
+    gender: '',
+    status: '',
+    species: ''
+  };
+  
   constructor(private route: ActivatedRoute, private apollo: Apollo) { }
 
   ngOnInit() {
