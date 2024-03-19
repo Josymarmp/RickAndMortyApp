@@ -5,13 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 interface Echaracters{
-  name: string,
- gender: string,
-  status: string,
-  species:string
+  name?: string,
+  gender?: string,
+  status?: string,
+  species?: string,
+  image?: string
+  
 }
-
-
 
 @Component({
   selector: 'app-editcharacters',
@@ -23,13 +23,11 @@ interface Echaracters{
 export class EditcharactersComponent implements OnInit {
   characterId!: number;
   characters: Echaracters[] = [];
-  selectedCharacter: Echaracters = {
-    name: '',
-    gender: '',
-    status: '',
-    species: ''
-  };
-  
+  selectedCharacter: Echaracters = {};
+  editedCharacter: Echaracters = {};
+
+  eventclick:boolean= false
+  eventclicktoast:boolean= false
   constructor(private route: ActivatedRoute, private apollo: Apollo) { }
 
   ngOnInit() {
@@ -37,6 +35,8 @@ export class EditcharactersComponent implements OnInit {
       this.characterId = +params['id']|| 0; 
       this.loadCharacter();
     });
+
+    
   }
 
   loadCharacter() {
@@ -48,6 +48,7 @@ export class EditcharactersComponent implements OnInit {
             gender
             status
             species
+            image
           }
         }
       `,
@@ -59,12 +60,51 @@ export class EditcharactersComponent implements OnInit {
     ).subscribe({
       next: (characterData: Echaracters) => {
         this.characters = [characterData];
-        this.selectedCharacter=characterData;
+       // this.selectedCharacter=characterData;
+        this.selectedCharacter = { ...characterData};
+
       },
       error: (error: Error) => {
         console.error('Error al cargar los datos del personaje:', error);
       }
     });
   }  
+
+  isDataInvalid(): boolean {
+    // Verificar si selectedCharacter tiene datos cargados
+    const hasDataLoaded = this.selectedCharacter.name == undefined 
+                        && this.selectedCharacter.gender == undefined 
+                        && this.selectedCharacter.status == undefined 
+                        && this.selectedCharacter.species == undefined;
+  
+    // Si los datos aún no han cargado aún, no renderizar el span de campos obligatorios
+    if (hasDataLoaded) {
+      return false;
+    }
+    return !this.selectedCharacter.name || !this.selectedCharacter.gender || !this.selectedCharacter.status || !this.selectedCharacter.species;
+  }
+
+
+hideToast() {
+  this.eventclicktoast = false;
+}
+
+  onCorrectData() {
+     this.eventclick= true;
+     this.eventclicktoast= true;
+      this.editedCharacter = {
+      name: this.selectedCharacter.name,
+      gender: this.selectedCharacter.gender,
+      status: this.selectedCharacter.status,
+      species: this.selectedCharacter.species,
+      image:this.selectedCharacter.image
+    };
+    setTimeout(() => {
+      this.hideToast();
+    }, 3000)
+
+  }
+  
+  
 
 }
