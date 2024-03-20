@@ -22,6 +22,7 @@ interface Characters{
 export class HomeComponent implements OnInit {
 
   @ViewChild('characterContainer') characterContainer!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   characters: Characters[] = [];
   originalCharacters: Characters[] = [];
   selectedCharacter: any;
@@ -37,7 +38,9 @@ export class HomeComponent implements OnInit {
     this.loadCharacters();
   }
 
-
+  focusInput() {
+    this.searchInput.nativeElement.focus();
+  }
   
   loadCharacters(): void {
     const query = gql`  

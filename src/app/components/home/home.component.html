@@ -1,9 +1,13 @@
 <section class="text-gray-400 bg-gray-900 body-font" infiniteScroll (scrolled)="onScroll()" #characterContainer>
-    <div class="container px-5 py-24 mx-auto">
-     <h2 class="mb-4 text-center text-white">Search characters</h2>  
-      <div class="mb-8 text-center">
-        <input type="text" placeholder="Search characters" class="px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" [(ngModel)]="searchTerm" (input)="filterCharacters(searchTerm)">
-      </div>
+    <div class="container px-5 py-24 mx-auto"> 
+      <div class="flex mb-8 justify-center">
+        <input #searchInput type="text" placeholder="Search characters" class="px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10 " [(ngModel)]="searchTerm" (input)="filterCharacters(searchTerm)">
+        <svg class="w-7 h-10 ml-2 text-gray-600 " fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"  (click)="focusInput()">
+        <path
+            d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+        </svg>
+     </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <div *ngFor="let character of characters" class="p-4">
           <div class="h-full flex flex-col items-center text-center  hover:bg-[#16D0C2] hover:text-white transition duration-300 ease-in-out rounded-lg">

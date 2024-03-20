@@ -25,9 +25,10 @@ export class EditcharactersComponent implements OnInit {
   characters: Echaracters[] = [];
   selectedCharacter: Echaracters = {};
   editedCharacter: Echaracters = {};
+  eventclick:boolean= false;
+  eventclicktoast:boolean= false;
+  eventclicktoastBd:boolean= false;
 
-  eventclick:boolean= false
-  eventclicktoast:boolean= false
   constructor(private route: ActivatedRoute, private apollo: Apollo) { }
 
   ngOnInit() {
@@ -87,6 +88,14 @@ export class EditcharactersComponent implements OnInit {
 
 hideToast() {
   this.eventclicktoast = false;
+}
+
+showComingSoon() {
+  this.eventclicktoastBd = true;
+  // Después de un tiempo (por ejemplo, 3 segundos), ocultar el span
+  setTimeout(() => {
+    this.eventclicktoastBd = false;
+  }, 4000); // 3000 milisegundos = 3 segundos
 }
 
   onCorrectData() {
